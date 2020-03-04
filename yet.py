@@ -52,7 +52,7 @@ class Environment(_Container):
             This might be a package bug if there's no YAML error.''')
         ret += '\n\n'.join(v_lst)
 
-        ret += f'\n\\end{{{self.key}}}'
+        ret += f'\n\\end{{{k}}}'
         return ret
 
     def __repr__(self):
