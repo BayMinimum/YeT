@@ -1,5 +1,8 @@
 # Yet most Elegant TeX
 
+![PyPI Version](https://img.shields.io/pypi/v/YeT)
+![License](https://img.shields.io/github/license/BayMinimum/YeT)
+
 Elegant TeX script in YAML style
 
 ## Introduction
