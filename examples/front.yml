@@ -1,0 +1,20 @@
+# examples/front.yml
+documentclass: article[a4paper]
+usepackage: amsmath
+usepackage: amssymb
+
+title: YeT Example
+author: BayMinimum
+
+document:
+  - \maketitle
+  - Let's begin with some math.
+  - equation:
+    - F = \frac{1}{4 \pi \epsilon_0} \frac{q_1 q_2}{r^2}
+  - enumerate:
+      item: This is enumerate
+      item: Write items in dict or list
+  - some_custom_environment{arg}[optional]:
+    - Key with dict or list value is interpreted as environment.
+    - This works purely syntatically, without semantics.
+    - So your custom environment works out-of-box.
