@@ -87,7 +87,7 @@ def yet_stream_to_tex_str(stream):
     return '\n'.join([str(v) for v in yet])
 
 
-if __name__ == '__main__':
+def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('input',
                         metavar='FILE',
@@ -123,3 +123,7 @@ if __name__ == '__main__':
 
         with open(output_path, 'w') as f:
             print(tex_str, file=f)
+
+
+if __name__ == '__main__':
+    main()
