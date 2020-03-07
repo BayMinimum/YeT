@@ -1,7 +1,10 @@
 import argparse
+import logging
 import sys
 
 from yet.loader import load_yet
+
+logger = logging.getLogger()
 
 
 def main():
@@ -13,13 +16,26 @@ def main():
                         metavar='FILE',
                         type=str,
                         default=None)
+    parser.add_argument('--verbose',
+                        action='store_true',
+                        dest='verbose')
+    parser.set_defaults(verbose=False)
     args = parser.parse_args()
+
+    logger.setLevel('INFO' if args.verbose else 'WARNING')
+    handler = logging.StreamHandler(sys.stderr)
+    handler.setFormatter(
+        logging.Formatter('{asctime} [{levelname}] {message}', style='{')
+    )
+    logger.addHandler(handler)
 
     if args.input == '-':
         # read from stdin
+        logger.info('reading from stdin')
         yet = load_yet(sys.stdin)
     else:
         # read from given file
+        logger.info(f'reading from {args.input}')
         with open(args.input) as f:
             yet = load_yet(f)
 
@@ -27,6 +43,7 @@ def main():
 
     if args.output == '-' or args.input == '-':
         # print to stdout
+        logger.info('writing to stdout')
         print(tex)
     else:
         output_path = args.output
@@ -40,5 +57,6 @@ def main():
             else:
                 output_path = f'{args.input}.tex'
 
+        logger.info(f'writing to {output_path}')
         with open(output_path, 'w') as f:
             print(tex, file=f)
