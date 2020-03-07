@@ -1,4 +1,4 @@
-from setuptools import setup
+import setuptools
 from os import path
 
 here = path.abspath(path.dirname(__file__))
@@ -7,7 +7,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 github_url = 'https://github.com/BayMinimum/YeT'
 
-setup(
+setuptools.setup(
     name='YeT',
     version='0.1.0',
     description='Elegant TeX script in YAML style',
@@ -38,14 +38,12 @@ setup(
     ],
     keywords='latex yaml',
 
-    py_modules=["yet"],
     python_requires='>=3.6',
     install_requires=['PyYAML'],
 
+    packages=setuptools.find_packages(),
     entry_points={
-        'console_scripts': [
-            'yet=yet:main',
-        ],
+        'console_scripts': ['yet=yet:main'],
     },
 
     project_urls={
