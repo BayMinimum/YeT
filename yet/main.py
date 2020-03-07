@@ -1,10 +1,37 @@
 import argparse
 import logging
+import os
 import sys
 
 from yet.loader import load_yet
 
 logger = logging.getLogger()
+
+
+def step(in_path, out_path):
+    """
+    Read from in_path, convert YeT to TeX, and write to out_path
+
+    :param in_path: string of existent file path, or sys.stdin
+    :param out_path: string of valid file path, or sys.stdout
+    """
+    if in_path is sys.stdin:
+        logger.info('reading from stdin')
+        yet = load_yet(sys.stdin)
+    else:
+        logger.info(f'reading from {in_path}')
+        with open(in_path) as f:
+            yet = load_yet(f)
+
+    tex = '\n'.join([str(v) for v in yet])
+
+    if out_path is sys.stdout:
+        logger.info('writing to stdout')
+        print(tex)
+    else:
+        logger.info(f'writing to {out_path}')
+        with open(out_path, 'w') as f:
+            print(tex, file=f)
 
 
 def main():
@@ -30,33 +57,30 @@ def main():
     logger.addHandler(handler)
 
     if args.input == '-':
-        # read from stdin
-        logger.info('reading from stdin')
-        yet = load_yet(sys.stdin)
+        in_path = sys.stdin
+    elif os.path.exists(args.input):
+        if os.path.isfile(args.input):
+            in_path = args.input
+        else:
+            raise NotImplementedError('Directory batch-processing is not supported yet')
     else:
-        # read from given file
-        logger.info(f'reading from {args.input}')
-        with open(args.input) as f:
-            yet = load_yet(f)
+        raise FileNotFoundError(f'Path {args.input} does not exist')
 
-    tex = '\n'.join([str(v) for v in yet])
-
-    if args.output == '-' or args.input == '-':
-        # print to stdout
-        logger.info('writing to stdout')
-        print(tex)
-    else:
-        output_path = args.output
-        if output_path is None:
+    if args.output == '-':
+        out_path = sys.stdout
+    elif args.output is None:
+        if args.input == '-':
+            out_path = sys.stdout
+        else:
             # change YAML extension to .tex
             if args.input.endswith('.yaml'):
-                output_path = f'{args.input[:-5]}.tex'
+                out_path = f'{args.input[:-5]}.tex'
             elif args.input.endswith('.yml'):
-                output_path = f'{args.input[:-4]}.tex'
+                out_path = f'{args.input[:-4]}.tex'
             # or append .tex if appropriate extension is not found
             else:
-                output_path = f'{args.input}.tex'
+                out_path = f'{args.input}.tex'
+    else:
+        out_path = args.output
 
-        logger.info(f'writing to {output_path}')
-        with open(output_path, 'w') as f:
-            print(tex, file=f)
+    step(in_path, out_path)
