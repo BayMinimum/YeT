@@ -9,10 +9,10 @@ Elegant TeX script in YAML style
 
 (Note: the below paragraph is opinionated, and so is this project)
 
-Doubtless, documents typesetted with TeX are elegant from their beginning.
+Doubtless, documents typeset with TeX are elegant from their beginning.
 However, TeX script are usually not. That's why you need YeT.
 
-* You Only Write Once: Just `environ:`. No more `\egin{environ}~\end{environ}`!
+* You Only Write Once: Just `environ:`. No more `\begin{environ}~\end{environ}`!
 * Syntactical Definition: Works out-of-box for *any* TeX packages without configuration
 * Easy Fallback: TeX script can be easily mixed into YeT script
 * Intuitive: Reading the below example will be enough for you to get the most out of YeT
