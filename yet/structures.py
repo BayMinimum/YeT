@@ -8,6 +8,8 @@ DELIM_R_TO_L = {
     ']': '[',
 }
 
+DELIM_MATH = ['$', '$$']
+
 
 def separate_tail_args(s: str):
     idx = len(s)
@@ -24,11 +26,14 @@ class _Container(object):
 
 class Command(_Container):
     def __str__(self):
-        ret = f'\\{self.key}'
-        v, v_args = separate_tail_args(self.value)
-        ret += v_args
-        if v:
-            ret += f'{{{v}}}'
+        if self.key in DELIM_MATH:
+            ret = f'{self.key}{self.value}{self.key}'
+        else:
+            ret = f'\\{self.key}'
+            v, v_args = separate_tail_args(self.value)
+            ret += v_args
+            if v:
+                ret += f'{{{v}}}'
         return ret
 
     def __repr__(self):
