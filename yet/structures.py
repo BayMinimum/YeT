@@ -28,10 +28,13 @@ class Command(_Container):
     def __str__(self):
         if self.key in DELIM_MATH:
             ret = f'{self.key}{self.value}{self.key}'
+        elif self.key.startswith('_'):
+            # treat value as-is
+            ret = f'\\{self.key[1:]}' if len(self.key) > 1 else ''
+            ret += str(self.value)
         else:
-            ret = f'\\{self.key}'
             v, v_args = separate_tail_args(self.value)
-            ret += v_args
+            ret = f'\\{self.key}{v_args}'
             if v:
                 ret += f'{{{v}}}'
         return ret

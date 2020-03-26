@@ -21,7 +21,7 @@ class YeTLoader(yaml.SafeLoader):
     @staticmethod
     def _construct_mapping(loader, node):
         loader.flatten_mapping(node)
-        return [Command(k, v) if isinstance(v, str)
+        return [Command(k, v) if isinstance(v, str) or k.startswith('_')
                 else Environment(k, v)
                 for k, v in loader.construct_pairs(node)]
 
