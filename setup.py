@@ -9,7 +9,7 @@ github_url = 'https://github.com/BayMinimum/YeT'
 
 setuptools.setup(
     name='YeT',
-    version='0.1.0',
+    version='0.1.1',
     description='Elegant TeX script in YAML style',
     long_description=long_description,
     long_description_content_type='text/markdown',
