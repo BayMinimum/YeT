@@ -108,7 +108,9 @@ def main():
                                   else in_path if args.output is None\
                                   else args.output
             return process_dir(in_path, out_path)
-        out_path = sys.stdout if args.output == '-' else convert_extension(args.output)
+        out_path = sys.stdout if args.output == '-'\
+                              else convert_extension(in_path) if args.output is None\
+                              else args.output
     else:
         raise FileNotFoundError(f'Path {args.input} does not exist')
 
